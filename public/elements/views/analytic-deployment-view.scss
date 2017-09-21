@@ -1,0 +1,60 @@
+//forms
+$inuit-enable-input--regular : true;
+@import 'px-forms-design/_base.forms.scss';
+@import 'px-toggle-design/_objects.toggle.scss';
+
+
+// Settings
+@import "px-colors-design/_settings.colors.scss";
+
+// Generic
+
+// Base
+@import 'px-flexbox-design/_base.flexbox.scss';
+@import "px-headings-design/_base.headings.scss";
+
+// Meta
+
+// Objects
+:host { 
+    background: $gray16;
+}
+
+#refreshTableBtn {
+    margin-top: 4px;
+    cursor: pointer;
+}
+
+// Trumps
+$inuit-enable-paddings : true;
+$inuit-enable-paddings--huge : true;
+@import "px-spacing-design/_trumps.spacing.scss";
+@import "px-widths-responsive-design/_trumps.widths-responsive.scss";
+
+$inuit-enable-responsive-margins--small : true;
+$inuit-enable-responsive-margins--huge : true;
+$inuit-enable-responsive-margins--rtl : true;
+$inuit-enable-responsive-paddings--small : true;
+$inuit-enable-responsive-paddings--tiny : true;
+$inuit-enable-responsive-paddings--rtl : true;
+$inuit-enable-responsive-margins : true;
+$inuit-enable-responsive-paddings--large : true;
+@import 'px-spacing-responsive-design/_trumps.spacing-responsive.scss';
+
+//flex box for splitting page in to two halves
+@import 'px-flexbox-design/_base.flexbox.scss';
+
+
+//for boxed view
+@import 'px-box-design/_objects.box.scss';
+
+//for submit button
+$inuit-enable-btn--call-to-action : true;
+@import 'px-buttons-design/_objects.buttons.scss';
+
+
+//float right
+$inuit-enable-layout--right : true;
+@import 'px-layout-design/_objects.layout.scss';
+
+

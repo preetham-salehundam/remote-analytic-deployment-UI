@@ -33,18 +33,27 @@
     "px-app-helpers": "^1.1.4",
     "px-breadcrumbs": "^1.0.5",
     "px-branding-bar": "^1.0.6",
-    "px-key-value-pair": "^1.1.2"
+    "px-key-value-pair": "^1.1.2",
+    "px-tree": "^2.0.3",
+    "px-file-upload": "^1.0.5"
   },
   "devDependencies": {
     "px-theme": "^3.0.0",
     "px-dark-theme": "^2.0.0",
     "px-spacing-design": "^1.0.0",
-    "px-buttons-design": "^2.0.0",
+    "px-buttons-design": "^2.0.5",
     "px-widths-responsive-design": "^1.0.0",
-    "px-starter-kit-design": "^1.0.0",
-    "px-layout-design": "^1.0.0",
+    "px-starter-kit-design": "^1.0.1",
+    "px-layout-design": "^1.0.1",
     "px-headings-design": "^1.0.3",
-    "px-meta-lists-design": "^1.0.1"
+    "px-meta-lists-design": "^1.0.1",
+    "px-forms-design": "^2.0.6",
+    "px-toggle-design": "^2.0.2",
+    "px-spacing-responsive-design": "^1.0.2",
+    "px-dropdown": "^4.0.7",
+    "px-datetime-field": "^1.0.6",
+    "px-flexbox-design": "^1.0.2",
+    "px-box-design": "^1.0.2"
   },
   "resolutions": {
     "webcomponentsjs": "^0.7.24"
