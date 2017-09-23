@@ -1,0 +1,176 @@
+<!-- import polymer -->
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="visualize-configuration-styles.html">
+<link rel="import" href="visualize-configuration-object.html">
+<link rel="import" href="../../bower_components/px-card/px-card.html">
+
+<dom-module id="visualize-configuration">
+
+    <template>
+        <style include="visualize-configuration-styles"></style>
+        <div>
+            <px-card header-text="Analytic configuration details" icon="px-utl:app-settings">
+                <ul class="u-desk-m0 u-desk-p" id="analytic_configuration_window">
+
+                    <li class="u-desk-mb- u-desk-p--">
+                        <label class="label--inline" for="config_analytic_name">Analytic Name:</label>
+                        <input type="text" class="text-input input--regular" id="config_analytic_name" value="{{configuration.name::input}}" disabled/>
+                    </li>
+                    <li class="u-desk-mb- u-desk-p--">
+                        <label class="label--inline" for="config_analytic_type">Analytic type:</label>
+                        <px-dropdown id="config_analytic_type" items='[{"key":"1","val":"Python"},{"key":"2","val":"EMAP"},{"key":"3","val":"MATLAB"}]'
+                            sort-mode="key" button-style="default" display-value="Select" select-by="val" disable-clear selected="{{configuration.type}}" disabled>
+                        </px-dropdown>
+                    </li>
+                    <li class="u-desk-mb- u-desk-p--">
+                        <label class="label--inline" for="config_analytic_state">Save Analytic state</label>
+                        <input id="analytic_state_toggle_config" type="checkbox" class="toggle__input" checked$="{{configuration.state::change}}" on-change="analyticSaveStateChanged" disabled>
+                        <label for="analytic_state_toggle_config" class="toggle__label"></label>
+                    </li>
+                    <li class="u-desk-mb- u-desk-p--">
+                        <label class="label--inline" for="config_analytic_alarm">Alarming Analytic</label>
+                        <input id="analytic_alarm_toggle_config" type="checkbox" class="toggle__input" checked$="{{configuration.alarming::change}}" on-change="analyticAlarmChanged" disabled>
+                        <label for="analytic_alarm_toggle_config" class="toggle__label"></label>
+                    </li>
+                    <li class="u-desk-mb- u-desk-p--">
+                        <label class="label--inline" for="config_analytic_start_date">Analytic start date</label>
+
+                        <px-datetime-field id="config_analytic_start_date" date-format="YYYY/MM/DD" time-format="HH:mm:ss" time-zone="UTC" show-time-zone="dropdown"
+                            date-time={{configuration.startdate}} disabled>
+
+                        </px-datetime-field>
+                    </li>
+                    <li class="u-desk-mb- u-desk-p--">
+                        <label class="label--inline" for="config_analytic_execution_frequency">Analytic Execution frequency (minutes)</label>
+                        <!-- <px-datetime-field id="analytic_execution_frequency" hide-date time-format="hh:mm:ss A" time-zone="UTC" show-time-zone="dropdown"
+                            value="{{analytic.execution.frequency::change}}">
+                        </px-datetime-field> -->
+                        <input type="number" id="config_analytic_execution_frequency" min="0" value="{{configuration.execution.frequency::input}}" class="text-input input--regular" disabled />
+                    </li>
+                    <!--  <li><span>Name : </span><span>[[configuration.name]]</span></li> -->
+                    <li><label for="tag_aliases">Tag aliases </label>
+                        <ul class="list-bare">
+                            <template is="dom-repeat" items="[[ _getKeys(configuration.tag_aliases)]]" as="tags">
+                                <li> <label for$="[[ tags ]]">[[tags]] :</label>
+                                    <input type="text" id$="[[ tags ]]" class="text-input input--regular" value="[[ _getValueFromObjPath('configuration.tag_aliases',tags) ]]"
+                                        disabled /> </li>
+                            </template>
+                        </ul>
+                    </li>
+                    <li><label for="input_tags">Input tags  </span>
+                    <ol id="input_tags" class="list-bare">
+                        <template is="dom-repeat" items="[[_getKeys(configuration.input_tags)]]" as="inputTags">
+                            <li>
+                                <ul class="list-bare">
+                                    <template is="dom-repeat" items="[[_getKeysFromObjPath('configuration.input_tags',inputTags)]]" as="tagItems">
+                                        <li> <label for$="{{tagItems}}">{{tagItems}} :</label>
+                        <input type="text" class="text-input input--regular" value="[[ _getValueFromObjPath('configuration.input_tags',inputTags,tagItems) ]]"
+                            disabled/></li>
+    </template>
+    </ul>
+    </li>
+    </template>
+    </ol>
+    </li>
+    <li><label for="output_tags">Output tags </span>
+                    <ol id="output_tags" class="list-bare">
+                        <template is="dom-repeat" items="[[_getKeys(configuration.output_tags)]]" as="outputTags">
+                            <li>
+                                <ul class="list-bare">
+                                    <template is="dom-repeat" items="[[_getKeysFromObjPath('configuration.output_tags',outputTags)]]" as="tagItems">
+                                        <li> <label for$="[[ tagItems ]]">[[ tagItems ]] :</label>
+        <input type="text" id$="[[ tagItems ]]" class="text-input input--regular" value="[[  _getValueFromObjPath('configuration.output_tags',outputTags,tagItems) ]]"
+            disabled /></li>
+    </template>
+    </ul>
+    </li>
+    </template>
+
+    </ol>
+    </li>
+    <li><label>Parameters</label>
+        <ul>
+            <li>
+                <label>Frame Parameters</label>
+                <ol class="list-bare">
+                    <template is="dom-repeat" items="[[_getKeys(configuration.parameters.frame_parameters)]]" as="frameParameters">
+                        <li><label for$="[[frameParameters]]">[[frameParameters]] :</label>
+                            <ol id$="[[frameParameters]]" type="I">
+                                <template is="dom-repeat" items="[[_getKeysFromObjPath('configuration.parameters.frame_parameters',frameParameters)]]" as="frameParameterItems">
+                                    <li>
+                                        <ul>
+                                            <template is="dom-repeat" items="[[_getKeysFromObjPath('configuration.parameters.frame_parameters',frameParameters,frameParameterItems)]]"
+                                                as="frameParametersDetails">
+                                                <li> <label for$="[[ frameParametersDetails ]]">[[frameParametersDetails]] :</label>
+                                                    <input type="text" id$="[[ frameParametersDetails ]]" class="text-input input--regular" value="[[ _getValueFromObjPath('configuration.parameters.frame_parameters',frameParameters,frameParameterItems,frameParametersDetails)]]"
+                                                        disabled /></li>
+                                            </template>
+                                        </ul>
+                                    </li>
+                                </template>
+                            </ol>
+                        </li>
+                    </template>
+                </ol>
+            </li>
+            <li>
+                <label for="analytic_parameters">Analytic Parameters</label>
+                <ol id="analytic_parameters" class="list-bare">
+                    <template is="dom-repeat" items="[[_getKeys(configuration.parameters.analytic_parameters)]]" as="analyticParameters">
+                        <li>
+                            <ul>
+                                <template is="dom-repeat" items="[[_getKeysFromObjPath('configuration.parameters.analytic_parameters',analyticParameters)]]"
+                                    as="analyticParametersItems">
+                                    <li> <label for$="[[ analyticParametersItems ]]">[[analyticParametersItems]] :</label><input
+                                            type="text" class="text-input input--regular" id$="[[ analyticParametersItems ]]"
+                                            value="[[ _getValueFromObjPath('configuration.parameters.analytic_parameters',analyticParameters,analyticParametersItems)]]"
+                                            disabled /></li>
+                                </template>
+                            </ul>
+                        </li>
+                    </template>
+
+                </ol>
+            </li>
+        </ul>
+    </li>
+    </ul>
+    </div>
+    </px-card>
+    </template>
+    <script>
+        Polymer({
+            is: "visualize-configuration",
+            properties: {
+                configuration: {
+                    type: Array,
+                    value: []
+                }
+            },
+            analyticSaveStateChanged: function (evt) { this.set('configuration.state', evt.target.checked) },
+            analyticAlarmChanged: function (evt) { this.set('configuration.alarming', evt.target.checked) },
+            _getKeys(dataObject) {
+                if (typeof dataObject == "object") {
+                    return Object.keys(dataObject);
+                } else {
+                    return dataObject;
+                }
+            },
+            /**
+             * @params [paths] object paths 
+             * for more details on Work with object and array data 
+             * refer : https://www.polymer-project.org/1.0/docs/devguide/model-data
+            **/
+            _getKeysFromObjPath(...paths) {
+                return this._getKeys(this.get(paths));
+            },
+            _getValueFromObjPath(...paths) {
+                return this.get(paths);
+            },
+            ready() {
+                console.log("invoked");
+
+            }
+        })
+    </script>
+</dom-module>

@@ -19,6 +19,7 @@
 <link rel="import" href="../../bower_components/px-icon-set/px-icon.html">
 <link rel="import" href="../../bower_components/px-icon-set/px-icon-set.html">
 <link rel="import" href="../../bower_components/px-tree/px-tree.html">
+<link rel="import"  href="../visualize-configuration/visualize-configuration.html" >
 
 <dom-module id="seed-app">
   <template>
@@ -79,7 +80,7 @@
           value: function() {
             return {
               version: '1.0',
-              name: 'Predix Web App Starter - RMD Reference App'
+              name: 'Remote Analytic configuration and deployment tool'
             }
           }
         },
@@ -91,18 +92,7 @@
           value: function() {
             return [
               {
-                "label": "Asset Monitoring",
-                "id": "rmd",
-                "icon": "px-fea:analytics"
-              },
-              {
-                "label": "About",
-                "id": "about",
-                "icon": "px-com:message"
-              },
-              
-              {
-                "label": "analytic-deployment",
+                "label": "Analytic-deployment",
                 "id": "analytic-deployment",
                 "icon": "px-com:message"
               }
@@ -127,6 +117,7 @@
         if (!this.$.starterAppRoute.navRoute) {
           // set default route
           this.$.starterAppRoute.navRoute = ['rmd'];
+          this.$.starterAppRoute.navRoute = ['analytic-deployment'];
         }
         // console.log('ready. route: ', this.$.starterAppRoute.navRoute);
         this.$.configAjaxEl.addEventListener('response', function(evt) {

@@ -1,3 +1,4 @@
+    
 //forms
 $inuit-enable-input--regular : true;
 @import 'px-forms-design/_base.forms.scss';
@@ -56,5 +57,24 @@ $inuit-enable-btn--call-to-action : true;
 //float right
 $inuit-enable-layout--right : true;
 @import 'px-layout-design/_objects.layout.scss';
+
+.alert-message-container {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  z-index: 1020;
+  height: 100vh;
+}
+
+.loader{
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    z-index: 1020;
+    height: 100vh;
+}
+
+//lists
+@import "px-list-bare-design/_objects.list-bare.scss";
 
 

@@ -53,7 +53,13 @@
     "px-dropdown": "^4.0.7",
     "px-datetime-field": "^1.0.6",
     "px-flexbox-design": "^1.0.2",
-    "px-box-design": "^1.0.2"
+    "px-box-design": "^1.0.2",
+    "px-alert-message": "^1.1.1",
+    "px-tabs": "^2.0.3",
+    "px-progress-bar": "^1.0.3",
+    "px-spinner": "^2.1.0",
+    "px-tooltip": "^1.0.5",
+    "px-overlay": "^1.0.2"
   },
   "resolutions": {
     "webcomponentsjs": "^0.7.24"

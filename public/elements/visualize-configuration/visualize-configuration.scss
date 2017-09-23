@@ -1,0 +1,19 @@
+$inuit-enable-input--regular: true;
+$inuit-forms-color--disabled: white;
+$inuit-forms-border--outer: rgba(0, 0, 0, 0);
+$inuit-enable-responsive-margins--none : true;
+@import "px-forms-design/_base.forms.scss";
+
+//forms
+$inuit-enable-input--regular : true;
+@import 'px-forms-design/_base.forms.scss';
+@import 'px-toggle-design/_objects.toggle.scss';
+
+ul {
+  list-style-type: none;
+}
+/* #analytic_configuration_window {
+  overflow: hidden;
+  overflow-y: scroll;
+height: 100%;
+} */

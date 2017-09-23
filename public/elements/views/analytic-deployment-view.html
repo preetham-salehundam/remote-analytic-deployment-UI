@@ -2,147 +2,110 @@
 <link rel="import" href="../../bower_components/px-view-header/px-view-header.html">
 <link rel="import" href="../../bower_components/px-card/px-card.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
-<link rel="import" href="../../bower_components/marked-element/marked-element.html">
 <link rel="import" href="../../bower_components/px-file-upload/px-file-upload.html">
 <link rel="import" href="../../bower_components/px-dropdown/px-dropdown.html">
 <link rel="import" href="../../bower_components/px-datetime-field/px-datetime-field.html">
+<link rel="import" href="../../bower_components/px-alert-message/px-alert-message.html">
 <link rel="import" href="analytic-deployment-view-styles.html">
+<link rel="import" href="../visualize-configuration/visualize-configuration.html">
+<link rel="import" href="../../bower_components/px-tree/px-tree.html">
+<link rel="import" href="../../bower_components/px-spinner/px-spinner.html">
+<link rel="import" href="../../bower_components/px-overlay/px-overlay.html">
+
 <dom-module id="analytic-deployment-view">
     <template>
 
         <style include="analytic-deployment-view-styles"></style>
-        <!-- <style>
-            div.markdown-html>h1 {
-                font-weight: normal;
-                font-size: 2.6667rem;
-                color: rgb(9, 129, 156);
-            }
 
-            div.markdown-html>h2 {
-                margin-top: 0;
-                font-size: 1.86667rem;
-                font-weight: normal;
-            }
+        <div class="loader">
+            <template is="dom-if" if="{{loading}}">
+            <px-overlay ></px-overlay>
+            <px-spinner class="" size="100" ></px-spinner>
+        </template>
+        </div>
+        <div class="alert-message-container">
 
-            px-card {
-                background: white;
-                color: rgb(44, 64, 76);
-                --px-card-header-color: black;
-            }
-        </style> -->
+            <px-alert-message id="InvalidConfigFileFormat" disable-auto-show="true" type="important" message-title="Oops!" action="dismiss"
+                message="An error has occurred! Please retry." hide-badge auto-dismiss="5000">
+                <px-icon icon="px-fea:alerts" style="color:white"></px-icon>
+            </px-alert-message>
+
+        </div>
+
         <div class="flex flex--row flex--center flex--stretch ">
+
             <div class="box u-1/2-desk u-desk-m-- u-desk-p-- ">
-                <px-card header-text="Fill in the below details" icon="px-utl:edit">
-                    <!--   <input id="example" type="checkbox" class="toggle__input">
-                    <label for="example" class="toggle__label"></label> -->
+                <px-card header-text="Fill in the below s" icon="px-utl:upload" id="analytic_config_form">
                     <div>
                         <!--class="flex flex--row flex--center flex--stretch"-->
-                        <form class="u-desk-ml u-desk-p">
+                        <form>
                             <div class="u-desk-mb- u-desk-p--">
                                 <label for="analytic_name">Analytic name:</label>
                                 <input type="text" class="text-input input--regular" id="analytic_name" value="{{analytic.name::input}}" />
                             </div>
                             <div class="u-desk-mb- u-desk-p--">
-                                <label for="analytic_type">Analytic name:</label>
-                                <!-- <select id="analytic_type" class="u-1/6-desk" value="analytic.type">
-                                            <option label="" value="">select</option>
-                                            <option label="Python" value="Python">Python</option>
-                                            <option label="EMAP" value="EMAP">EMAP</option>
-                                            <option label="MATLAB" value="MATLAB">MATLAB</option>
-                                    </select> -->
-                                <!-- <px-dropdown
-                                    items='[{"key":"1","val":"iPhone"},{"key":"2","val":"Android"},{"key":"3","val":"Blackberry"},{"key":"4","val":"Windows Phone"},{"key":"5","val":"Flip Phone","disabled":true}]'
-                                    sort-mode="key"
-                                    button-style="default"
-                                    display-value="Select"
-                                    disable-clear>
-                                    </px-dropdown> -->
-                                <px-dropdown items='[{"key":"1","val":"Python"},{"key":"2","val":"EMAP"},{"key":"3","val":"MATLAB"}]' sort-mode="key" button-style="default"
-                                    display-value="Select" disable-clear>
+                                <label for="analytic_type">Analytic type:</label>
+                                <px-dropdown id="analytic_type" items='[{"key":"1","val":"Python"},{"key":"2","val":"EMAP"},{"key":"3","val":"MATLAB"}]'
+                                    sort-mode="key" button-style="default" display-value="Select" select-by="val" disable-clear
+                                    selected="{{analytic.type}}">
                                 </px-dropdown>
                             </div>
                             <div class="u-desk-mb- u-desk-p--">
                                 <label for="analytic_state">Save Analytic state</label>
-                                <!--   <input type="radio" name="analytic_state" class="form-control" id="analytic_state" value="{{analytic.state::change}}" value="No" /><span>No</span>
-                                    <input type="radio" name="analytic_state" class="form-control" id="analytic_state" value="{{analytic.state::change}}" value="Yes" /><span>Yes</span> -->
-                                <input id="analytic_state_toggle" type="checkbox" class="toggle__input" value="{{analytic.state::change}}">
+                                <input id="analytic_state_toggle" type="checkbox" class="toggle__input" checked$="{{analytic.state::change}}" on-change="analyticSaveStateChanged">
                                 <label for="analytic_state_toggle" class="toggle__label"></label>
                             </div>
                             <div class="u-desk-mb- u-desk-p--">
                                 <label for="analytic_alarm">Alarming Analytic</label>
-                                <!-- <input type="checkbox" name="analytic_alarm" class="form-control" id="analytic_alarm" value="{{analytic.alarming::change}}"  /> -->
-                                <!--   <input id="analytic_alarm" type="checkbox" class="toggle__input" value="{{analytic.alarming::change}}"> -->
-                                <input id="analytic_alarm_toggle" type="checkbox" class="toggle__input" value="{{analytic.alarming::change}}">
+                                <input id="analytic_alarm_toggle" type="checkbox" class="toggle__input" checked$="{{analytic.alarming::change}}" on-change="analyticAlarmChanged">
                                 <label for="analytic_alarm_toggle" class="toggle__label"></label>
                             </div>
                             <div class="u-desk-mb- u-desk-p--">
                                 <label for="analytic_start_date">Analytic start date</label>
-                                <!-- <input type="date" class="u-1/6-desk" id="analytic_start_date" value="{{analytic.startdate::input}}" /> -->
-                                <px-datetime-field date-format="YYYY/MM/DD" time-format="HH:mm:ss" time-zone="UTC" show-time-zone="dropdown">
-                                    <!-- date-time="2017-09-21T20:11:36.000Z"
-                                    min='"2016-09-21T20:11:36.877Z"'
-                                    max='"2018-09-21T20:11:36.877Z"' -->
+
+                                <px-datetime-field id="analytic_start_date" date-format="YYYY/MM/DD" time-format="HH:mm:ss" time-zone="UTC" show-time-zone="dropdown"
+                                    date-time={{analytic.startdate}}>
+
                                 </px-datetime-field>
                             </div>
                             <div class="u-desk-mb- u-desk-p--">
-                                <label for="analytic_execution_frequency">Analytic Execution frequency</label>
-                                <!-- <input type="time" class="u-1/6-desk" id="analytic_execution_frequency" value="{{analytic.execution.frequency::input}}" /> -->
-                                <px-datetime-field hide-date time-format="hh:mm:ss A" time-zone="UTC" show-time-zone="dropdown">
-                                    <!-- date-time="2017-09-21T20:11:36.000Z"
-                                    min='"2016-09-21T20:11:36.877Z"'
-                                    max='"2018-09-21T20:11:36.877Z"' -->
-                                </px-datetime-field>
+                                <label for="analytic_execution_frequency">Analytic Execution frequency (minutes)</label>
+                                <!-- <px-datetime-field id="analytic_execution_frequency" hide-date time-format="hh:mm:ss A" time-zone="UTC" show-time-zone="dropdown"
+                                    value="{{analytic.execution.frequency::change}}">
+                                </px-datetime-field> -->
+                                <input type="number" min="0" value="{{analytic.execution.frequency::input}}" class="text-input input--regular" />
                             </div>
                             <div class="u-desk-mb- u-desk-p--">
                                 <label for="analytic_data_file">Browse file</label>
-                                <px-file-upload message="Drag and drop files here, or click the button below.">
+                                <px-file-upload message="Drag and drop files here, or click the button below." id="analytic_data_file">
                                 </px-file-upload>
                             </div>
                             <div class="u-desk-mb- u-desk-p--">
                                 <label for="analytic_config_file">Browse Config</label>
-                                <px-file-upload message="Drag and drop files here, or click the button below.">
+                                <px-file-upload message="Drag and drop files here, or click the button below." id="analytic_config_file">
                                 </px-file-upload>
                             </div>
+                            <div class="layout layout--right">
+                                <div class="layout__item u-1/4"></div>
+                                <div class="layout__item u-1/4"></div>
+                                <div class="layout__item u-1/4"><button class="btn btn--call-to-action" on-click="saveAnalyticConfiguration">Submit</button></div>
 
+                            </div>
 
                         </form>
                     </div>
-                    <div class="layout layout--right">
-                            <div class="layout__item u-1/4"></div>
-                            <div class="layout__item u-1/4"></div>
-                            <div class="layout__item u-1/4"><button class="btn btn--call-to-action"  on-click="print" >Submit</button></div>
-                            
-                    </div>
-                    <!-- <input type="submit" value="Upload" on-click="print" /> -->
+
                 </px-card>
             </div>
-            <!-- <div class="box  flex__item flex__item--middle u-desk-mh++ u-desk-p">
-                <h3>OR</h3>
-            </div> -->
 
-            <div class="box u-1/2-desk u-desk-m- u-desk-p-- flex__item flex__item--middle">
-                <!-- <px-card> -->
-                <px-card header-text="Auto-fill details from config file" icon="px-utl:upload">
-                    <!-- <div class='actions'>
-                        <px-icon icon='px-nav:new-window'></px-icon>
-                        <px-icon icon='px-utl:help'></px-icon>
-                        <px-icon icon='px-utl:app-settings'></px-icon>
-                    </div> -->
-                    <div class="u-desk-mb- u-desk-p--">
-                        <label for="analytic_config_file">Browse Config</label>
-                        <px-file-upload message="Drag and drop files here, or click the button below.">
-                        </px-file-upload>
-                        
-                    </div>
-                    <div class="layout layout--right">
-                            <div class="layout__item u-1/4"></div>
-                            <div class="layout__item u-1/4"></div>
-                            <div class="layout__item u-1/4"><button class="btn btn--call-to-action"  on-click="print" >Submit</button></div>
-                            
-                    </div>
-                </px-card>
+            <div class="box u-1/2-desk u-desk-m-- u-desk-p--">
 
-                <!-- </px-card> -->
+                <div id="analytic_configuration_window">
+                    <template is="dom-if" if="[[analytic.config.fileData]]">
+                        <visualize-configuration configuration="[[ analytic.config.fileData ]]"></visualize-configuration>
+                    </template>
+                </div>
+
             </div>
         </div>
     </template>
@@ -152,12 +115,141 @@
             properties: {
                 analytic: {
                     type: Object,
-                    value: { config: {}, data: {}, execution: {}, name: "Preetham" }
+                    value: {
+                        config: {},
+                        data: {},
+                        execution: {
+
+                        }
+
+                    },
+                    loading:false,
+                    //value:{"tag_aliases":{"TEMPERATURE_2":"TEMP_2","TEMPERATURE_3":"TEMP_3","TEMPERATURE_1":"TEMP_1","POWER":"POWER","DATETIME":"DateTime","SPEED":"SPEED"},"name":"TEMPLATE","parameters":{"frame_parameters":{"7F":[{"unit":"MW","name":"POWER_MIN","value":-1,"description":""},{"unit":"MW","name":"POWER_MAX","value":500,"description":""},{"unit":"F","name":"TEMP_1_MIN","value":-1,"description":""},{"unit":"F","name":"TEMP_1_MAX","value":1500,"description":""},{"unit":"F","name":"TEMP_2_MIN","value":-1,"description":""},{"unit":"F","name":"TEMP_2_MAX","value":1500,"description":""},{"unit":"F","name":"TEMP_3_MIN","value":-1,"description":""},{"unit":"F","name":"TEMP_3_MAX","value":1500,"description":""}],"all":[{"unit":"percent","name":"SPEED_MIN","value":-1,"description":""},{"unit":"percent","name":"SPEED_MAX","value":110,"description":""}],"9F":[{"unit":"MW","name":"POWER_MIN","value":-1,"description":""},{"unit":"MW","name":"POWER_MAX","value":500,"description":""},{"unit":"F","name":"TEMP_1_MIN","value":-1,"description":""},{"unit":"F","name":"TEMP_1_MAX","value":1500,"description":""},{"unit":"F","name":"TEMP_2_MIN","value":-1,"description":""},{"unit":"F","name":"TEMP_2_MAX","value":1500,"description":""},{"unit":"F","name":"TEMP_3_MIN","value":-1,"description":""},{"unit":"F","name":"TEMP_3_MAX","value":1500,"description":""}]},"analytic_parameters":[{"unit":null,"name":"K_ROL_WIN_MAVG_STD","value":10,"description":""},{"unit":null,"name":"K_LATCH_RESET","value":5,"description":""}]},"input_tags":[{"is_required":true,"name":"POWER","unit":"F","description":"Power generated"},{"is_required":false,"name":"TEMPERATURE_1","unit":"F","description":"Temperature 1"},{"is_required":false,"name":"TEMPERATURE_2","unit":"F","description":"Temperature 2"},{"is_required":false,"name":"TEMPERATURE_3","unit":"F","description":"Temperature 3"},{"is_required":false,"name":"SPEED","unit":"percent","description":"Turbine speed"}],"output_tags":[{"is_required":true,"name":"OUTPUT","unit":null,"description":"Output Value"}]}
+                },
+            },
+            listeners: {
+                'is-valid-changed': 'changeAnalyticStartDate',
+                'px-file-upload-files-changed': 'fileUploadChanged'
+            },
+            observers: [
+                'analyticConfigChanged(analytic.*,  "test")'
+            ],
+            analyticSaveStateChanged: function (evt) { this.set('analytic.state', evt.target.checked) },
+            analyticAlarmChanged: function (evt) { this.set('analytic.alarming', evt.target.checked) },
+            analyticConfigChanged: function (oldval, newVal) {
+                console.log(oldval);
+                console.log(newVal);
+            },
+            toggle(evt) {
+                console.log(evt);
+            },
+            showSpinner(){
+              /*   document.querySelector('loader').finished = false;
+                document.querySelector('loader').show(); */
+                this.loading = true;
+            },
+            hideSpinner(){
+                this.loading = false;
+                /* document.querySelector('loader').finished = true;
+                document.querySelector('loader').hide(); */
+            },
+            _generateKeysForPxTree(data) {
+                var host = this;
+                var keysConfig = [];
+                if (data) {
+
+
+                    var keys = Object.keys(data);
+                    console.log(JSON.stringify(keys));
+                    keys.forEach(function (key) {
+                        if (typeof data[key] == "object" && data) {
+                            keysConfig.push({ "label": key, "id": key, "items": host._generateKeysForPxTree(data[key]) });
+                        } else {
+                            keysConfig.push({ "label": key + " : " + data[key], "id": key })
+                        }
+
+                    }, this);
+                    return keysConfig;
+                } else {
+                    return null;
+                }
+
+            },
+            saveAnalyticConfiguration(evt) {
+               var  _this = this;
+                evt.preventDefault();
+                console.log(this.analytic);
+                _this.showSpinner();
+                setTimeout(function() {
+                    _this.hideSpinner();
+                }, 3000);
+            },
+            _printJSON(obj) {
+                if (this.analytic)
+                    return this._generateKeysForPxTree(this.analytic.config.fileData);
+            },
+            changeAnalyticStartDate(evt) {
+                var that = this;
+                console.log(evt);
+
+            },
+            onDataFileAttached(files) {
+                var host = this;
+                if (!files instanceof Array) {
+                    return false;
+                } else {
+                    files.forEach(function (file) {
+                        console.log(file);
+                    }, this);
+                }
+
+            },
+            onConfigFileAttached(files) {
+
+                var host = this;
+                if (!files instanceof Array) {
+                    return false;
+                } else {
+                    files.forEach(function (file) {
+                        var configFileReader = new FileReader();
+                        configFileReader.onload = function (event) {
+                            if (event.target.result != "" && host._IsJsonString(event.target.result)) {
+                                //use setter where ever possible for UI to update immediately
+                                host.set('analytic.config.fileData', Object.assign({}, JSON.parse(event.target.result), host.analytic));
+                            } else {
+                                document.querySelector('#InvalidConfigFileFormat').message = "Invalid Config file attached. Please attach a valid file."
+                                document.querySelector('#InvalidConfigFileFormat').visible = true;
+
+                            }
+                        }
+                        configFileReader.readAsText(file);
+                    }, this);
                 }
             },
-            print() {
-                console.log(this.analytic)
+            fileUploadChanged(evt) {
+                var host = this;
+                switch (evt.target.id) {
+                    case "analytic_data_file": host.onDataFileAttached(evt.target.files);
+                        break;
+                    case "analytic_config_file": host.onConfigFileAttached(evt.target.files);
+                        break;
+
+                    default: console.log("file upload event not registered on " + evt.target.id)
+                }
+            },
+            _IsJsonString(str) {
+                try {
+                    JSON.parse(str);
+                } catch (e) {
+                    return false;
+                }
+                return true;
+            },
+            ready() {
+                //document.querySelector('px-datetime-field').addEventListener('is-valid-changed',changeAnalyticStartDate);
+                console.debug("Analytic-deployment-view Component initialized successfully!")
             }
+
         })
     </script>
 </dom-module>
