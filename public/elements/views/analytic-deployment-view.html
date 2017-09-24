@@ -64,7 +64,7 @@
                             <div class="u-desk-mb- u-desk-p--">
                                 <label for="analytic_start_date">Analytic start date</label>
 
-                                <px-datetime-field id="analytic_start_date" date-format="YYYY/MM/DD" time-format="HH:mm:ss" time-zone="UTC" show-time-zone="dropdown"
+                                <px-datetime-field id="analytic_start_date" date-format="YYYY/MM/DD" time-format="HH:mm:ss"
                                     date-time={{analytic.startdate}}>
 
                                 </px-datetime-field>
@@ -77,18 +77,18 @@
                                 <input type="number" min="0" value="{{analytic.execution.frequency::input}}" class="text-input input--regular" />
                             </div>
                             <div class="u-desk-mb- u-desk-p--">
-                                <label for="analytic_data_file">Browse file</label>
-                                <px-file-upload message="Drag and drop files here, or click the button below." id="analytic_data_file">
+                                <label for="analytic_data_file">Browse analytic package</label>
+                                <px-file-upload message="Drag and drop analytic package here, or click the button below." id="analytic_data_file">
                                 </px-file-upload>
                             </div>
                             <div class="u-desk-mb- u-desk-p--">
-                                <label for="analytic_config_file">Browse Config</label>
-                                <px-file-upload message="Drag and drop files here, or click the button below." id="analytic_config_file">
+                                <label for="analytic_config_file">Browse analytic Config file</label>
+                                <px-file-upload message="Drag and drop analytic config file here, or click the button below." id="analytic_config_file">
                                 </px-file-upload>
                             </div>
                             <div class="layout layout--right">
+                                <div class="layout__item u-1/2"><button class="btn btn--call-to-action" on-click="previewAnalyticConfiguration">Preview Configuration</button></div>
                                 <div class="layout__item u-1/4"></div>
-                                <div class="layout__item u-1/4"><button class="btn btn--call-to-action" on-click="previewAnalyticConfiguration">Preview Configuration</button></div>
                                 <div class="layout__item u-1/4"><button class="btn btn--call-to-action" on-click="saveAnalyticConfiguration">Submit</button></div>
 
                             </div>
