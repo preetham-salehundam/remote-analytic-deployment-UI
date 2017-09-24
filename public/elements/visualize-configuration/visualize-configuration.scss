@@ -1,13 +1,33 @@
+$inuit-forms-label-color: #d8d2d2;
+px-card {
+  label {
+    font-size: 15px !important;
+  }
+}
+px-card {
+  --px-card-icon-color: white;
+}
+//margins
+$inuit-enable-responsive-margins--small: true;
+$inuit-enable-responsive-margins--huge: true;
+$inuit-enable-responsive-margins--rtl: true;
+$inuit-enable-responsive-paddings--small: true;
+$inuit-enable-responsive-paddings--tiny: true;
+$inuit-enable-responsive-paddings--rtl: true;
+$inuit-enable-responsive-margins: true;
+$inuit-enable-responsive-paddings--large: true;
+@import "px-spacing-responsive-design/_trumps.spacing-responsive.scss";
+
 $inuit-enable-input--regular: true;
 $inuit-forms-color--disabled: white;
 $inuit-forms-border--outer: rgba(0, 0, 0, 0);
-$inuit-enable-responsive-margins--none : true;
+$inuit-enable-responsive-margins--none: true;
 @import "px-forms-design/_base.forms.scss";
 
 //forms
-$inuit-enable-input--regular : true;
-@import 'px-forms-design/_base.forms.scss';
-@import 'px-toggle-design/_objects.toggle.scss';
+$inuit-enable-input--regular: true;
+@import "px-forms-design/_base.forms.scss";
+@import "px-toggle-design/_objects.toggle.scss";
 
 ul {
   list-style-type: none;
@@ -18,11 +38,11 @@ ul {
 height: 100%;
 } */
 
-:host{
- #analytic_configuration_window{
-   margin-top:0;
-    max-height:44.2em;
+:host {
+  #analytic_configuration_window {
+    margin-top: 0;
+    max-height: 46.4em;
     overflow: hidden;
-    overflow-y:scroll;
-}
+    overflow-y: scroll;
+  }
 }

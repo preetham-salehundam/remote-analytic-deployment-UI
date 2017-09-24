@@ -41,28 +41,28 @@
                         <!--class="flex flex--row flex--center flex--stretch"-->
                         <form>
                             <div class="u-desk-mb- u-desk-p--">
-                                <label for="analytic_name">Analytic name:</label>
-                                <input type="text" class="text-input input--regular" id="analytic_name" value="{{analytic.name::input}}" />
+                                <label for="analytic_name">Analytic name: <span class="mandatory">*</span></label>
+                                <input type="text" class="text-input input--regular" id="analytic_name" value="{{analytic.name::input}}" required />
                             </div>
                             <div class="u-desk-mb- u-desk-p--">
-                                <label for="analytic_type">Analytic type:</label>
+                                <label for="analytic_type">Analytic type: <span class="mandatory">*</span></label>
                                 <px-dropdown id="analytic_type" items='[{"key":"1","val":"Python"},{"key":"2","val":"EMAP"},{"key":"3","val":"MATLAB"}]'
                                     sort-mode="key" button-style="default" display-value="Select" select-by="val" disable-clear
                                     selected="{{analytic.type}}">
                                 </px-dropdown>
                             </div>
                             <div class="u-desk-mb- u-desk-p--">
-                                <label for="analytic_state">Save Analytic state</label>
-                                <input id="analytic_state_toggle" type="checkbox" class="toggle__input" checked$="{{analytic.state::change}}" on-change="analyticSaveStateChanged">
+                                <label for="analytic_state">Save Analytic state: <span class="mandatory">*</span></label>
+                                <input id="analytic_state_toggle" type="checkbox" class="toggle__input" checked$="{{analytic.state::change}}" on-change="analyticSaveStateChanged" required>
                                 <label for="analytic_state_toggle" class="toggle__label"></label>
                             </div>
                             <div class="u-desk-mb- u-desk-p--">
-                                <label for="analytic_alarm">Alarming Analytic</label>
-                                <input id="analytic_alarm_toggle" type="checkbox" class="toggle__input" checked$="{{analytic.alarming::change}}" on-change="analyticAlarmChanged">
+                                <label for="analytic_alarm">Alarming Analytic: <span class="mandatory">*</span></label>
+                                <input id="analytic_alarm_toggle" type="checkbox" class="toggle__input" checked$="{{analytic.alarming::change}}" on-change="analyticAlarmChanged" required>
                                 <label for="analytic_alarm_toggle" class="toggle__label"></label>
                             </div>
                             <div class="u-desk-mb- u-desk-p--">
-                                <label for="analytic_start_date">Analytic start date</label>
+                                <label for="analytic_start_date">Analytic start date: <span class="mandatory">*</span></label>
 
                                 <px-datetime-field id="analytic_start_date" date-format="YYYY/MM/DD" time-format="HH:mm:ss"
                                     date-time={{analytic.startdate}}>
@@ -70,19 +70,19 @@
                                 </px-datetime-field>
                             </div>
                             <div class="u-desk-mb- u-desk-p--">
-                                <label for="analytic_execution_frequency">Analytic Execution frequency (minutes)</label>
+                                <label for="analytic_execution_frequency">Analytic Execution frequency (minutes): <span class="mandatory">*</span></label>
                                 <!-- <px-datetime-field id="analytic_execution_frequency" hide-date time-format="hh:mm:ss A" time-zone="UTC" show-time-zone="dropdown"
                                     value="{{analytic.execution.frequency::change}}">
                                 </px-datetime-field> -->
-                                <input type="number" min="0" value="{{analytic.execution.frequency::input}}" class="text-input input--regular" />
+                                <input type="number" min="0" value="{{analytic.execution.frequency::input}}" class="text-input input--regular" required/>
                             </div>
                             <div class="u-desk-mb- u-desk-p--">
-                                <label for="analytic_data_file">Browse analytic package</label>
+                                <label for="analytic_data_file">Browse analytic package: <span class="mandatory">*</span></label>
                                 <px-file-upload message="Drag and drop analytic package here, or click the button below." id="analytic_data_file">
                                 </px-file-upload>
                             </div>
                             <div class="u-desk-mb- u-desk-p--">
-                                <label for="analytic_config_file">Browse analytic Config file</label>
+                                <label for="analytic_config_file">Browse analytic Config file: <span class="mandatory">*</span></label>
                                 <px-file-upload message="Drag and drop analytic config file here, or click the button below." id="analytic_config_file">
                                 </px-file-upload>
                             </div>

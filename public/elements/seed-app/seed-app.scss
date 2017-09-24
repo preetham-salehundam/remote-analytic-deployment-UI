@@ -40,7 +40,21 @@ $inuit-enable-layout--full  : true;
   --px-app-nav-background-color: $gray19;
   --px-app-nav-link-selected-color: #364C59;
   --px-branding-bar-background-color: rgb(8, 41, 57);
+
+  //added for a better branding bar
+  --px-branding-bar-height:2em;
+  --px-branding-bar-font-size:24px;
+  --px-branding-bar-logo-and-title-text-color:rgb(230, 218, 218);
+  --px-ge-svg-logo-color:rgb(230, 218, 218);
+  px-app-nav-group{
+    font-size:15px;
+  }
+  px-icon{
+      --iron-icon-height: 20px;
+  }
 }
+
+
 
 px-login {
   --px-btn-bare-color: #b7c3cd;

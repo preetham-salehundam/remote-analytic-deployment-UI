@@ -1,4 +1,16 @@
-    
+$inuit-forms-label-color:#D8D2D2;  
+
+px-card {
+    --px-card-icon-color: white;
+  }
+  
+:host{
+    label{
+    font-size:15px !important;
+    }
+    --px-card-header-color: white;
+}
+
 //forms
 $inuit-enable-input--regular : true;
 @import 'px-forms-design/_base.forms.scss';
