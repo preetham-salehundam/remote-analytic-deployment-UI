@@ -116,7 +116,7 @@
       ready: function(){
         if (!this.$.starterAppRoute.navRoute) {
           // set default route
-          this.$.starterAppRoute.navRoute = ['rmd'];
+          //this.$.starterAppRoute.navRoute = ['rmd'];
           this.$.starterAppRoute.navRoute = ['analytic-deployment'];
         }
         // console.log('ready. route: ', this.$.starterAppRoute.navRoute);
@@ -129,7 +129,7 @@
       },
 
       getHref: function(navRoute) {
-        var navRoute = this.$.starterAppRoute.navRoute || ['rmd'];
+        var navRoute = this.$.starterAppRoute.navRoute || ['analytic-deployment'];
         return '/elements/views/' + navRoute[0] + '-view.html';
       }
 

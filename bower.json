@@ -59,7 +59,8 @@
     "px-progress-bar": "^1.0.3",
     "px-spinner": "^2.1.0",
     "px-tooltip": "^1.0.5",
-    "px-overlay": "^1.0.2"
+    "px-overlay": "^1.0.2",
+    "px-modal": "^2.0.4"
   },
   "resolutions": {
     "webcomponentsjs": "^0.7.24"

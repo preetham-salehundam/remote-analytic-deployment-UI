@@ -1,0 +1,89 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<dom-module id="rest-client">
+        <template>
+        </template>
+        <script>
+            Polymer({
+                is: 'rest-client',
+                properties: {
+                    //   Any Properties
+                },
+                isEmptyObject: function (obj) {
+                    var name;
+                    for (name in obj) {
+                        return false;
+                    }
+                    return true;
+                },
+                isNull(object){
+                    return object===null;
+                },
+                isUndefined(object){
+                    return object===null;
+                },
+                _request: function (requestObj) {
+                    var _this = this;
+                    return new Promise(function (resolve, reject) {
+                        var req = new XMLHttpRequest();
+                        req.open(requestObj.method, requestObj.url);
+                        if (!_this.isNull(requestObj.headers) && !_this.isUndefined(requestObj.headers) && !_this.isEmptyObject(requestObj.headers)) {
+                            for (header in requestObj.headers){
+                                req.setRequestHeader(header, (requestObj.headers)[header])
+                            };
+                        }
+                        req.onload = function () {
+                            if (req.status === 200) {
+                                try{
+                                    resolve(JSON.parse(req.response));
+                                }catch(err){
+                                    resolve(req.response);
+                                }
+                            } else {
+                                resolve(JSON.stringify({"error":"NETWORK_ERROR", "error_message":req.responseText}));
+                            }
+                        };
+                        req.onerror = function () {
+                            resolve(JSON.stringify({"error":"NETWORK_ERROR", "error_message":req.responseText}));
+                        };
+                        if (requestObj.method === 'GET')
+                            req.send();
+                        else {
+                            req.send(requestObj.params);
+                        }
+                    });
+                },
+                initiateDataCall: function (requestObj) {
+                    var _this = this;
+                    return new Promise(function (resolve, reject) {
+                        _this._request(requestObj).then(
+                            /* Success Callback */
+                            function (res) {
+                                resolve(res);
+                            },
+                            /*Error Callback*/
+                            function (err) {
+                                reject(err);
+                            });
+                    });
+                },
+                getConnectionProperties(libraryName) {
+                    var _this = this;
+                    var url_library = document.querySelector('url-library');
+                    var requestObj;
+                    requestObj = {
+                        method: url_library[libraryName].method,
+                        url: url_library[libraryName].url,
+                    }
+                    return requestObj;
+                },
+                getConfigurations() {
+                    var _this = this,
+                    requestObj = _this.getConnectionProperties('getConfigurations');
+                    return _this.initiateDataCall(requestObj);
+                },
+                ready: function () {
+                    console.info("REST Client is ready.");
+                }
+            });
+        </script>
+    </dom-module>

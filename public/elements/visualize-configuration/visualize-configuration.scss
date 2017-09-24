@@ -17,3 +17,12 @@ ul {
   overflow-y: scroll;
 height: 100%;
 } */
+
+:host{
+ #analytic_configuration_window{
+   margin-top:0;
+    max-height:44.2em;
+    overflow: hidden;
+    overflow-y:scroll;
+}
+}

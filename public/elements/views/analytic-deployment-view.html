@@ -11,18 +11,19 @@
 <link rel="import" href="../../bower_components/px-tree/px-tree.html">
 <link rel="import" href="../../bower_components/px-spinner/px-spinner.html">
 <link rel="import" href="../../bower_components/px-overlay/px-overlay.html">
+<link rel="import" href="../../bower_components/px-modal/px-modal.html">
 
 <dom-module id="analytic-deployment-view">
     <template>
 
         <style include="analytic-deployment-view-styles"></style>
-
-        <div class="loader">
+       
+        <!-- <div class="loader">
             <template is="dom-if" if="{{loading}}">
             <px-overlay ></px-overlay>
             <px-spinner class="" size="100" ></px-spinner>
         </template>
-        </div>
+        </div> -->
         <div class="alert-message-container">
 
             <px-alert-message id="InvalidConfigFileFormat" disable-auto-show="true" type="important" message-title="Oops!" action="dismiss"
@@ -35,7 +36,7 @@
         <div class="flex flex--row flex--center flex--stretch ">
 
             <div class="box u-1/2-desk u-desk-m-- u-desk-p-- ">
-                <px-card header-text="Fill in the below s" icon="px-utl:upload" id="analytic_config_form">
+                <px-card header-text="Fill in the below details" icon="px-utl:upload" id="analytic_config_form">
                     <div>
                         <!--class="flex flex--row flex--center flex--stretch"-->
                         <form>
@@ -87,7 +88,7 @@
                             </div>
                             <div class="layout layout--right">
                                 <div class="layout__item u-1/4"></div>
-                                <div class="layout__item u-1/4"></div>
+                                <div class="layout__item u-1/4"><button class="btn btn--call-to-action" on-click="previewAnalyticConfiguration">Preview Configuration</button></div>
                                 <div class="layout__item u-1/4"><button class="btn btn--call-to-action" on-click="saveAnalyticConfiguration">Submit</button></div>
 
                             </div>
@@ -96,17 +97,25 @@
                     </div>
 
                 </px-card>
+                
             </div>
 
             <div class="box u-1/2-desk u-desk-m-- u-desk-p--">
 
                 <div id="analytic_configuration_window">
-                    <template is="dom-if" if="[[analytic.config.fileData]]">
+                    <template is="dom-if" if="[[showPreview]]">
                         <visualize-configuration configuration="[[ analytic.config.fileData ]]"></visualize-configuration>
                     </template>
                 </div>
 
             </div>
+
+            <px-modal id="analytic-save-success"
+            btn-modal-positive="Close"
+            modal-heading="Message">
+            <p>Analytic configuration saved successfully and the analytic with name <b>{{analytic.name}}</b> will start on <b>{{_showDateString(analytic.startdate)}}</b> and recurs every <b>{{analytic.execution.frequency}}</b> minutes</b> 
+            </p>
+            </px-modal>
         </div>
     </template>
     <script>
@@ -134,6 +143,15 @@
             observers: [
                 'analyticConfigChanged(analytic.*,  "test")'
             ],
+            _showDateString(date){
+                return new Date(date);
+            },
+            previewAnalyticConfiguration(evt){
+                evt.preventDefault();
+                if(this.analytic.config.fileData)
+                this.showPreview = true;
+
+            },
             analyticSaveStateChanged: function (evt) { this.set('analytic.state', evt.target.checked) },
             analyticAlarmChanged: function (evt) { this.set('analytic.alarming', evt.target.checked) },
             analyticConfigChanged: function (oldval, newVal) {
@@ -179,10 +197,11 @@
                var  _this = this;
                 evt.preventDefault();
                 console.log(this.analytic);
-                _this.showSpinner();
+               /*  _this.showSpinner();
                 setTimeout(function() {
                     _this.hideSpinner();
-                }, 3000);
+                }, 3000); */
+                document.querySelector('#analytic-save-success').modalButtonClicked();
             },
             _printJSON(obj) {
                 if (this.analytic)

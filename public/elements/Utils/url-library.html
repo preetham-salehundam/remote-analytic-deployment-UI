@@ -1,0 +1,22 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<dom-module id="url-library">
+        <template>
+        </template>
+        <script>
+            Polymer({
+                is: 'url-library',
+                properties: {
+                    saveAnalytic: {
+                        type: Object,
+                        value: {
+                            url: "/mock-api/container/configuration",
+                            method: "GET"
+                        }
+                    }
+                },
+                ready: function () {
+                    console.info("URL Library Ready");
+                }
+            });
+        </script>
+    </dom-module>
